@@ -31,6 +31,8 @@ TutorsContactsPro is a **desktop app for tutors teaching Computer Science course
 
   * [Deleting a student: `delete`](#feature-delete)
 
+  * [Mail broadcast: `mail`](#feature-mail)
+
   * [Clearing all entries: `clear`](#feature-clear)
 
   * [Exiting the program: `exit` ](#feature-exit)
@@ -67,9 +69,9 @@ TutorsContactsPro is a **desktop app for tutors teaching Computer Science course
    
    * `edit 1 p/93840823 y/3 tg/jiejfh203` : Edits the first student on the current list. 
    
-   * `find John` : Lists all the students with the name 'John'
+   * `find John Tan` : Lists all the students with names that matches 'John' or 'Tan'.
 
-   * `filter TUT01` : Lists all the students in group 'TUT10'
+   * `filter TUT10` : Lists all the students in group 'TUT10'
 
    * `delete 3` : Deletes the 3rd student shown in the current list.
 
@@ -91,8 +93,8 @@ TutorsContactsPro is a **desktop app for tutors teaching Computer Science course
 | Command format        | Representation                                                                                                                  | Examples                                                                                      |
 |-----------------------|---------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
 | `UPPER_CASE`          | Words in `UPPER_CASE` are the parameters to be supplied by the user                                                             | in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`                  |
-| square brackets `[]`  | Items in square brackets are optional                                                                                           | `n/NAME [g/Group]` can be used as `n/John Doe g/TUT` or as `n/John Doe`                      |
-| `…`                   | Items with `…`​ after them can be used multiple times including zero times                                                      | `[g/GROUP]…​` can be used as `g/TUT03`, `g/LAB01`, `g/REC08` etc            |
+| square brackets `[]`  | Items in square brackets are optional                                                                                           | `n/NAME [g/Group]` can be used as `n/John Doe g/TUT` or as `n/John Doe`                       |
+| `…`                   | Items with `…`​ after them can be used multiple times including zero times                                                      | `[g/GROUP]…​` can be used as `g/TUT03`, `g/LAB01`, `g/REC08` etc                              |
 | Order                 | Parameters can be in any order                                                                                                  | if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable. |
 | Extraneous parameters |  Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored | if the command specifies `help 123`, it will be interpreted as `help`                         |                                                                                                 | Singapore phone number, 8 digits, without country code                                        |
 
@@ -126,13 +128,13 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL y/YEAR m/MAJOR tg/TELEGRAM_HANDLE [r/
 
 | Parameter         | Representation                        | Constraints                                                                             |
 |-------------------|---------------------------------------|-----------------------------------------------------------------------------------------|
-| `NAME`            | Name of the student                   | Auto Auto-capitalization will be handled. Extra/trailing/leading spaces will be removed |
+| `NAME`            | Name of the student                   | Auto-capitalization will be handled. Extra/trailing/leading spaces will be removed      |
 | `PHONE_NUMBER`    | Phone number of the student           | Singapore phone number, 8 digits, without country code                                  |
 | `EMAIL`           | Email of the student                  | Must be in email format `username`@`email`.com                                          |
 | `YEAR`            | Academic Year of the student          | A number ranging from 1 - 6, inclusive                                                  |
 | `MAJOR`           | Academic Major of the student contact | String to represent the major                                                           |
 | `TELEGRAM_HANDLE` | Telegram handle of the student        | Telegram handle format (a-z, 0-9 and underscores, case-insensitive), without prefix “@” |
-| `REMARKS`         | Addition remarks of the student       | 100 characters, case-sensitive. This can be anything                                    |
+| `REMARKS`         | Additional remarks of the student     | A case-sensitive string. This can be anything                                           |
 | `GROUP`           | Tutorial/Lab/Recitation slot          | Must be in correct slot format TUT/LAB/REC`2-digit number`                              |
 
 Examples:
@@ -150,12 +152,12 @@ Format: `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [y/YEAR] [m/MAJOR] [tg/T
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing groups, the existing groups of the student will be removed i.e adding of groups is not cumulative.
-* You can remove all the student’s groups by typing `g/` without
-    specifying any groups after it.
+* You can remove all the student’s groups by typing `g/` without specifying any groups after it.
+* You can remove the remark of a student by typing `r/` without specifying any groups after it. 
 
 Examples:
 *  `edit 1 n/John e/john01@example.com` Edits the name of the first student to `John` and email to `john01@example.com` respectively.
-*  `edit 2 n/Betty tg/` Edits the name of the 2nd student to be `Betsy` and clears her telegram handle.
+*  `edit 2 n/Betty tg/` Edits the name of the 2nd student to be `Betty` and clears her telegram handle.
 
 ### <span id='feature-find'> Locating students by keyword: `find` <span>
 
@@ -166,7 +168,7 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only student's name is searched.
+* Only the student's name is searched.
 * Students matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
@@ -206,6 +208,22 @@ Format: `delete INDEX`
 Examples:
 * `list` followed by `delete 2` deletes the 2nd student in the major book.
 * `find Betsy` followed by `delete 1` deletes the 1st student in the results of the `find` command.
+
+### <span id='feature-mail'> Mail broadcast : `mail` <span>
+
+You can generate a mailto link with email addresses pre-filled based on specific keyword entered.
+
+Format: `mail [KEYWORDS]`
+
+* `[KEYWORDS]` are based on student's group name
+* It requires a **full match** for the keyword 
+* `[KEYWORDS]` is optional and when no `[KEYWORDS]` is entered, email addresses of all students on the current list will be included
+* If `[KEYWORDS]` is entered, only email addresses of students belonging to the group name that fully matches the `[KEYWORDS]` will be included
+
+Examples:
+* `mail` generates a mailto link with email addresses of all students on the current list. 
+* `mail LAB05` generates a mailto link with email addresses of all students belonging to `LAB05`.
+![result for 'mail LAB05'](images/MailFeature.png)
 
 ### <span id='feature-clear'> Clearing all entries : `clear` <span>
 
@@ -261,7 +279,7 @@ _Details coming soon ..._
 | **List**   | `list`                                                                                                                                                                                                             |
 | **Add**    | `add n/NAME p/PHONE e/EMAIL y/YEAR m/MAJOR tg/TELEGRAM [r/REMARK] [g/Group]...` <br> e.g., `add n/John Doe p/98765432 e/johnd@example.com y/2 m/Computer Science tg/johndoe r/Very quiet student g/TUT04 g/LAB10 ` |
 | **Edit**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [y/NUMBER] [m/MAJOR] [tg/TELEGRAM] [r/REMARK] [g/Group]`<br> e.g., `edit 1 n/John e/john01@example.com`                                                                   |
-| **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g.,`find john`                                                                                                                                                                |
+| **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g.,`find john tan`                                                                                                                                                            |
 | **Filter** | `filter KEYWORD [MORE_KEYWORDS]`<br> e.g.,`filter TUT01`                                                                                                                                                           |
 | **Delete** | `delete INDEX`<br> e.g., `delete 1`                                                                                                                                                                                |  
 | **Clear**  | `clear`                                                                                                                                                                                                            |
