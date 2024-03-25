@@ -1,6 +1,7 @@
 package seedu.address.ui;
 
 import java.util.Comparator;
+import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -62,7 +63,11 @@ public class PersonCard extends UiPart<Region> {
         telegram.setText("@" + person.getTelegram().value);
         remark.setText(person.getRemark().value);
         person.getGroups().stream()
-                .sorted(Comparator.comparing(group -> group.groupName))
-                .forEach(group -> groups.getChildren().add(new Label(group.groupName)));
+        .sorted(Comparator.comparing(group -> group.groupName))
+        .forEach(group -> {
+            String attendanceString = String.join(", ", group.attendance);
+            String groupWithAttendance = group.groupName + ": " + attendanceString;
+            groups.getChildren().add(new Label(groupWithAttendance));
+        });
     }
 }
