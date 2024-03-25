@@ -41,7 +41,6 @@ public class PersonListPanel extends UiPart<Region> {
         this.groupList = groupList;
         initializeTabs(); // Initialize tabs after FXML is loaded
 
-
         // Add listener to personList
         personList.addListener((ListChangeListener<Person>) change -> {
             while (change.next()) {
@@ -70,30 +69,23 @@ public class PersonListPanel extends UiPart<Region> {
         }
     }
 
-    private void initializeTabs() {
-        if (tabPane == null) {
-            throw new AssertionError("TabPane is not injected.");
-        }
-
-        // Clear existing tabs
-        tabPane.getTabs().clear();
-
-        // Add a tab for displaying all persons
+    /**
+     * Creates a tab to display all persons.
+     */
+    private void createAllTab() {
         Tab allTab = new Tab("All");
         ListView<Person> allListView = new ListView<>();
         allListView.setItems(personList);
         allListView.setCellFactory(listView -> new PersonListViewCell());
         allTab.setContent(allListView);
         tabPane.getTabs().add(allTab);
+    }
 
-
-        // Get the set of all unique groups from the person list
-        Set<Group> groups = new HashSet<>();
-        for (Person person : personList) {
-            groups.addAll(person.getGroups());
-        }
-
-        // Create a tab for each group
+    /**
+     * Creates a tab for each group and display all persons in that group.
+     * @param groups
+     */
+    private void createEachGroupTab(Set<Group> groups) {
         for (Group group : groups) {
             Tab tab = new Tab(group.groupName);
             ListView<Person> groupListView = new ListView<>();
@@ -104,6 +96,25 @@ public class PersonListPanel extends UiPart<Region> {
             groupListView.setCellFactory(listView -> new PersonListViewCell());
             tabPane.getTabs().add(tab);
         }
+    }
+    private void initializeTabs() {
+        if (tabPane == null) {
+            throw new AssertionError("TabPane is not injected.");
+        }
+
+        // Clear existing tabs
+        tabPane.getTabs().clear();
+
+        // Creates a tab for displaying all persons
+       createAllTab();
+
+        // Get the set of all unique groups from the person list
+        Set<Group> groups = new HashSet<>();
+        for (Person person : personList) {
+            groups.addAll(person.getGroups());
+        }
+
+        createEachGroupTab(groups);
     }
 
     private void updateTabs() {
