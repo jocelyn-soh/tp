@@ -1,13 +1,18 @@
 package seedu.address.ui;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.group.Group;
 import seedu.address.model.person.Person;
 
 /**
@@ -19,14 +24,19 @@ public class PersonListPanel extends UiPart<Region> {
 
     @FXML
     private ListView<Person> personListView;
+    @FXML
+    private TabPane tabPane; // Inject the TabPane from FXML
+
+    private ObservableList<Person> personList;
+
 
     /**
      * Creates a {@code PersonListPanel} with the given {@code ObservableList}.
      */
     public PersonListPanel(ObservableList<Person> personList) {
         super(FXML);
-        personListView.setItems(personList);
-        personListView.setCellFactory(listView -> new PersonListViewCell());
+        this.personList = personList;
+        initializeTabs(); // Initialize tabs after FXML is loaded
     }
 
     /**
@@ -46,4 +56,27 @@ public class PersonListPanel extends UiPart<Region> {
         }
     }
 
+    private void initializeTabs() {
+        if (tabPane == null) {
+            throw new AssertionError("TabPane is not injected.");
+        }
+
+        // Get the set of all unique groups from the person list
+        Set<Group> groups = new HashSet<>();
+        for (Person person : personList) {
+            groups.addAll(person.getGroups());
+        }
+
+        // Create a tab for each group
+        for (Group group : groups) {
+            Tab tab = new Tab(group.groupName);
+            ListView<Person> groupListView = new ListView<>();
+            tab.setContent(groupListView);
+
+            // Filter persons based on the group and set them in the ListView
+            groupListView.setItems(personList.filtered(person -> person.getGroups().contains(group)));
+            groupListView.setCellFactory(listView -> new PersonListViewCell());
+            tabPane.getTabs().add(tab);
+        }
+    }
 }
