@@ -80,6 +80,16 @@ public class Person {
     }
 
     /**
+     * Checks if the person belongs to a specific group.
+     * 
+     * @param group The group to check.
+     * @return True if the person belongs to the group, false otherwise.
+     */
+    public boolean hasGroup(Group group) {
+        return groups.contains(group);
+    }
+
+    /**
      * Returns true if both persons have the same name.
      * This defines a weaker notion of equality between two persons.
      */

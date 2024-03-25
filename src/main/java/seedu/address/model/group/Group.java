@@ -14,7 +14,7 @@ public class Group {
 
     public static final String MESSAGE_CONSTRAINTS = "Groups names should be in correct format with 2 digit number. "
         + "EX) g/TUT04, g/LAB10, g/REC09>. Link should be a valid Telegram invite link.";
-    public static final String WEEK_MESSAGE_CONSTRAINTS = "Week number should be integer. ";
+    public static final String WEEK_MESSAGE_CONSTRAINTS = "Week number should be 2 digit integer. ";
     public static final String ATTENDANCE_MESSAGE_CONSTRAINTS = "Attendance should be A or P. ";
     public static final String GROUP_NAME_VALIDATION_REGEX = "^(TUT|LAB|REC)\\d{2}$";
     public static final String LINK_VALIDATION_REGEX = "https://t\\.me/[A-Za-z0-9_]+";
@@ -59,13 +59,13 @@ public class Group {
     private List<String> initializeAttendance() {
         List<String> attendanceList = new ArrayList<>();
         for (int i = 0; i < 13; i++) {
-            attendanceList.add("0");
+            attendanceList.add("_");
         }
         return attendanceList;
     }
 
     public void markAttendance(Integer week, String update) {
-        attendance.set(week, update);
+        this.attendance.set(week - 1, update);
     }
 
     /**

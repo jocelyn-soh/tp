@@ -25,16 +25,16 @@ public class MarkAttendanceCommandParser implements Parser<MarkAttendanceCommand
     public MarkAttendanceCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_GROUP, PREFIX_WEEK, PREFIX_ATTENDANCE);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_GROUP, PREFIX_WEEK, PREFIX_ATTENDANCE) || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkAttendanceCommand.MESSAGE_USAGE));
-        }
-
         Index index;
 
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkAttendanceCommand.MESSAGE_USAGE), pe);
+        }
+
+        if (!arePrefixesPresent(argMultimap, PREFIX_GROUP, PREFIX_WEEK, PREFIX_ATTENDANCE)) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkAttendanceCommand.MESSAGE_USAGE));
         }
 
         Group group = ParserUtil.parseGroup(argMultimap.getValue(PREFIX_GROUP).get());

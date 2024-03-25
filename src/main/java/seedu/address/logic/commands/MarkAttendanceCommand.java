@@ -30,11 +30,10 @@ public class MarkAttendanceCommand extends Command {
             + PREFIX_WEEK + "3 "
             + PREFIX_ATTENDANCE + "A ";
 
-    public static final String MESSAGE_SUCCESS = "Attendance marked for group: %1$s";
+    public static final String MESSAGE_SUCCESS = "Attendance marked";
     public static final String MESSAGE_WEEK_NUMBER_INVALID = "Week number is wrong (between 1 and 13)";
-    public static final String MESSAGE_ATTENDANCE_FAIL = "Attendance format is wrong (A for absent P for present)";
-    public static final String MESSAGE_TUTORIAL_FAIL = "There is no such group";
-    public static final String MESSAGE_NOT_FOUND = "Group is not found";
+    public static final String MESSAGE_ATTENDANCE_INVALID = "Attendance format is wrong (A for absent P for present)";
+    public static final String MESSAGE_GROUP_NOT_FOUND = "Group is not found in the person";
 
     private final Index index;
     private final Group group;
@@ -64,19 +63,29 @@ public class MarkAttendanceCommand extends Command {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
+        Person personToEdit = lastShownList.get(index.getZeroBased());
+
         //check if it is valid group
-        if (!model.hasGroup(group)) {
-            throw new CommandException(MESSAGE_NOT_FOUND);
+        if (!personToEdit.hasGroup(group)) {
+            throw new CommandException(MESSAGE_GROUP_NOT_FOUND);
+        }
+
+        Group matchingGroup = null;
+        for (Group personGroup : personToEdit.getGroups()) {
+            if (personGroup.isSameGroup(group)) {
+                matchingGroup = personGroup;
+                break;
+            }
         }
 
         // Week number is 1-based, so decrement it to access the correct index in the list
-        if (week < 0 || week >= 13) {
+        if (week < 0 || week > 13) {
             throw new CommandException(MESSAGE_WEEK_NUMBER_INVALID);
         }
 
         // update the attendance of the attendance list
-        group.markAttendance(week, attendance);
+        matchingGroup.markAttendance(week, attendance);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, group));
+        return new CommandResult(String.format(MESSAGE_SUCCESS));
     }
 }
