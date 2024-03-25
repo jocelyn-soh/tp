@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
@@ -28,15 +29,28 @@ public class PersonListPanel extends UiPart<Region> {
     private TabPane tabPane; // Inject the TabPane from FXML
 
     private ObservableList<Person> personList;
+    private ObservableList<Group> groupList; // Observable list of groups
 
 
     /**
      * Creates a {@code PersonListPanel} with the given {@code ObservableList}.
      */
-    public PersonListPanel(ObservableList<Person> personList) {
+    public PersonListPanel(ObservableList<Person> personList, ObservableList<Group> groupList) {
         super(FXML);
         this.personList = personList;
+        this.groupList = groupList;
         initializeTabs(); // Initialize tabs after FXML is loaded
+
+
+        // Add listener to personList
+        personList.addListener((ListChangeListener<Person>) change -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    updateTabs(); // Update tabs if new persons were added
+                    break; // Only update tabs once for each change
+                }
+            }
+        });
     }
 
     /**
@@ -61,6 +75,18 @@ public class PersonListPanel extends UiPart<Region> {
             throw new AssertionError("TabPane is not injected.");
         }
 
+        // Clear existing tabs
+        tabPane.getTabs().clear();
+
+        // Add a tab for displaying all persons
+        Tab allTab = new Tab("All");
+        ListView<Person> allListView = new ListView<>();
+        allListView.setItems(personList);
+        allListView.setCellFactory(listView -> new PersonListViewCell());
+        allTab.setContent(allListView);
+        tabPane.getTabs().add(allTab);
+
+
         // Get the set of all unique groups from the person list
         Set<Group> groups = new HashSet<>();
         for (Person person : personList) {
@@ -78,5 +104,13 @@ public class PersonListPanel extends UiPart<Region> {
             groupListView.setCellFactory(listView -> new PersonListViewCell());
             tabPane.getTabs().add(tab);
         }
+    }
+
+    private void updateTabs() {
+        // Clear existing tabs
+        tabPane.getTabs().clear();
+
+        // Reinitialize tabs with updated group list
+        initializeTabs();
     }
 }
