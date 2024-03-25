@@ -106,7 +106,7 @@ public class PersonListPanel extends UiPart<Region> {
         tabPane.getTabs().clear();
 
         // Creates a tab for displaying all persons
-       createAllTab();
+        createAllTab();
 
         // Get the set of all unique groups from the person list
         Set<Group> groups = new HashSet<>();
