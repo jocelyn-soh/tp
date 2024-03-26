@@ -15,12 +15,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.junit.jupiter.api.Test;
 import seedu.address.model.group.Group;
 import seedu.address.model.group.exceptions.DuplicateGroupException;
+import seedu.address.model.group.exceptions.GroupNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.testutil.PersonBuilder;
@@ -129,6 +129,70 @@ public class AddressBookTest {
         String expected = AddressBook.class.getCanonicalName() + "{persons=" + addressBook.getPersonList()
                 + ", groups=" + addressBook.getGroupList() + "}";
         assertEquals(expected, addressBook.toString());
+    }
+
+    @Test
+    public void hashCode_equalAddressBooks_sameHashCode() {
+        // Create two identical address books
+        AddressBook addressBook1 = new AddressBook();
+        AddressBook addressBook2 = new AddressBook();
+
+        // Add a person to the first address book
+        Person person1 = new PersonBuilder().withName("Alice").withGroups("TUT04").build();
+        addressBook1.addPerson(person1);
+
+        // Add a person to the second address book
+        Person person2 = new PersonBuilder().withName("Alice").withGroups("TUT04").build();
+        addressBook2.addPerson(person2);
+
+        // Check that the hash codes are equal
+        assertEquals(addressBook1.hashCode(), addressBook2.hashCode());
+    }
+
+    @Test
+    public void hashCode_differentAddressBooks_differentHashCodes() {
+        // Create two address books with different contents
+        AddressBook addressBook1 = new AddressBook();
+        AddressBook addressBook2 = new AddressBook();
+
+        // Add a person to the first address book
+        Person person1 = new PersonBuilder().withName("Alice").withGroups("TUT05").build();
+        addressBook1.addPerson(person1);
+
+        // Add a person to the second address book
+        Person person2 = new PersonBuilder().withName("Bob").withGroups("LAB08").build();
+        addressBook2.addPerson(person2);
+
+        // Check that the hash codes are different
+        assertEquals(addressBook1.hashCode() != addressBook2.hashCode(), true);
+    }
+
+    @Test
+    public void removeGroup_existingGroup_success() {
+        // Create an address book with a group
+        AddressBook addressBook = new AddressBook();
+        Group groupToRemove = new Group("LAB08");
+        addressBook.addGroup(groupToRemove);
+
+        // Remove the group
+        addressBook.removeGroup(groupToRemove);
+
+        // Check that the group is no longer in the address book
+        assertFalse(addressBook.getGroupList().contains(groupToRemove));
+    }
+
+    @Test
+    public void removeGroup_nonExistingGroup_noChange() {
+        // Create an address book with a group
+        AddressBook addressBook = new AddressBook();
+        Group existingGroup = new Group("LAB05");
+        addressBook.addGroup(existingGroup);
+
+        // Create a group that does not exist in the address book
+        Group nonExistingGroup = new Group("LAB06");
+
+        // Throws GroupNotFoundException when the non-existing group is removed
+        assertThrows(GroupNotFoundException.class, () -> addressBook.removeGroup(nonExistingGroup));
     }
 
     /**
