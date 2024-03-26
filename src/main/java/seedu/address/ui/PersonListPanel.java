@@ -44,10 +44,8 @@ public class PersonListPanel extends UiPart<Region> {
         // Add listener to personList
         personList.addListener((ListChangeListener<Person>) change -> {
             while (change.next()) {
-                if (change.wasAdded()) {
-                    updateTabs(); // Update tabs if a new person was added
-                    break; // Only update tabs once for each change
-                }
+                updateTabs(); // Update tabs whenever there is a change to a person
+                break; // Only update tabs once for each change
             }
         });
     }
@@ -97,6 +95,10 @@ public class PersonListPanel extends UiPart<Region> {
             tabPane.getTabs().add(tab);
         }
     }
+
+    /**
+     * Initializes the tabs with the list of students from each group
+     */
     private void initializeTabs() {
         if (tabPane == null) {
             throw new AssertionError("TabPane is not injected.");
@@ -117,6 +119,9 @@ public class PersonListPanel extends UiPart<Region> {
         createEachGroupTab(groups);
     }
 
+    /**
+     * Updates the tabs and the person list in each tab
+     */
     private void updateTabs() {
         // Clear existing tabs
         tabPane.getTabs().clear();
