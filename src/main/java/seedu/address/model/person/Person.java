@@ -90,6 +90,21 @@ public class Person {
     }
 
     /**
+     * Returns the group from the person's set of groups that matches the given group.
+     *
+     * @param group The group to match.
+     * @return The matching group.
+     */
+    public Group getMatchingGroup(Group group) {
+        for (Group personGroup : groups) {
+            if (personGroup.isSameGroup(group)) {
+                return personGroup;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Returns true if both persons have the same name.
      * This defines a weaker notion of equality between two persons.
      */

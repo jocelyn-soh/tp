@@ -35,7 +35,10 @@ public class Group {
         checkArgument(isValidGroupName(groupName), MESSAGE_CONSTRAINTS);
         this.groupName = groupName;
         this.telegramLink = "";
-        this.attendance = initializeAttendance();
+        this.attendance = new ArrayList<>();
+        for (int i = 0; i < 13; i++) {
+            attendance.add("_");
+        }
     }
 
     /**
@@ -48,23 +51,14 @@ public class Group {
         checkArgument(isValidGroupName(groupName), MESSAGE_CONSTRAINTS);
         this.groupName = groupName;
         this.telegramLink = link;
-        this.attendance = initializeAttendance();
-    }
-
-    /**
-     * Converts the boolean attendance array into a list of strings.
-     *
-     * @return A list of strings representing attendance where "1" represents present and "0" represents absent.
-     */
-    private List<String> initializeAttendance() {
-        List<String> attendanceList = new ArrayList<>();
+        this.attendance = new ArrayList<>();
         for (int i = 0; i < 13; i++) {
-            attendanceList.add("_");
+            attendance.add("_");
         }
-        return attendanceList;
     }
 
     public void markAttendance(Integer week, String update) {
+        requireNonNull(update);
         this.attendance.set(week - 1, update);
     }
 

@@ -16,17 +16,13 @@ class JsonAdaptedGroup {
 
     private final String groupName;
     private final String telegramLink;
-    public final List<String> attendance;
-
     /**
      * Constructs a {@code JsonAdaptedGroup} with the given {@code groupName}.
      */
     @JsonCreator
-    public JsonAdaptedGroup(@JsonProperty("groupName") String groupName, @JsonProperty("telegramLink") String link,
-        @JsonProperty("attendance") List<String> attendance) {
+    public JsonAdaptedGroup(@JsonProperty("groupName") String groupName, @JsonProperty("telegramLink") String link) {
         this.groupName = groupName;
         this.telegramLink = link;
-        this.attendance = attendance;
     }
 
     /**
@@ -35,8 +31,6 @@ class JsonAdaptedGroup {
     public JsonAdaptedGroup(String groupName) {
         this.groupName = groupName;
         this.telegramLink = "";
-        List<String> emptyList = new ArrayList<>();
-        this.attendance = emptyList;
     }
 
     /**
@@ -45,8 +39,6 @@ class JsonAdaptedGroup {
     public JsonAdaptedGroup(Group source) {
         groupName = source.groupName;
         telegramLink = source.telegramLink;
-        List<String> emptyList = new ArrayList<>();
-        this.attendance = emptyList;
     }
 
     public String getGroupName() {

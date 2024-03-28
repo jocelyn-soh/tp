@@ -13,6 +13,8 @@ import seedu.address.model.Model;
 import seedu.address.model.group.Group;
 import seedu.address.model.person.Person;
 
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
+
 /**
  * Marks attendance for a specified person in a group.
  */
@@ -70,22 +72,18 @@ public class MarkAttendanceCommand extends Command {
             throw new CommandException(MESSAGE_GROUP_NOT_FOUND);
         }
 
-        Group matchingGroup = null;
-        for (Group personGroup : personToEdit.getGroups()) {
-            if (personGroup.isSameGroup(group)) {
-                matchingGroup = personGroup;
-                break;
-            }
-        }
-
         // Week number is 1-based, so decrement it to access the correct index in the list
         if (week < 0 || week > 13) {
             throw new CommandException(MESSAGE_WEEK_NUMBER_INVALID);
         }
 
-        // update the attendance of the attendance list
-        matchingGroup.markAttendance(week, attendance);
+        // Modify the attendance for the specified week
+        personToEdit.getMatchingGroup(group).markAttendance(week, attendance);
 
+        // Use model.setPerson(personToEdit, personToEdit) to update the Person object in the model
+        model.setPerson(personToEdit, personToEdit);
+
+        // Return a CommandResult indicating the success of the operation
         return new CommandResult(String.format(MESSAGE_SUCCESS));
     }
 }
