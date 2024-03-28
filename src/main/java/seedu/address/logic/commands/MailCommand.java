@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import seedu.address.model.Model;
 import seedu.address.model.group.GroupContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.ui.MailWindow;
+import javafx.stage.Stage;
 
 /**
  * Directs users to the HTML website with email links to all the students in the current list.
@@ -39,6 +41,7 @@ public class MailCommand extends Command {
 
     /**
      * Generates a mailto link consisting of emails of students filtered accordingly
+     * Shows a pop-up window containing the mailto link
      */
     @Override
     public CommandResult execute(Model model) {
@@ -54,8 +57,11 @@ public class MailCommand extends Command {
                 .map(email -> email.value)
                 .collect(Collectors.toList());
 
-        // Generate the mailto link
         String mailtoLink = "mailto:" + String.join(";", emailList);
+
+        // Display the mailto link in a pop-up window
+        MailWindow mailWindow = new MailWindow(new Stage(), mailtoLink);
+        mailWindow.show();
 
         return new CommandResult(mailtoLink);
     }

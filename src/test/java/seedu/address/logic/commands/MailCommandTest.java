@@ -17,6 +17,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.group.GroupContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.ui.MailWindow;
 import seedu.address.testutil.PersonBuilder;
 
 public class MailCommandTest {
@@ -51,13 +52,24 @@ public class MailCommandTest {
         assertFalse(findFirstCommand.equals(findSecondCommand));
     }
 
+//    @Test
+//    public void execute_noPredicate_success() {
+//        Model model = new ModelManager();
+//        MailCommand mailCommand = new MailCommand();
+//        CommandResult commandResult = mailCommand.execute(model);
+//        assertEquals("mailto:", commandResult.getFeedbackToUser());
+//    }
+
     @Test
     public void execute_noPredicate_success() {
         Model model = new ModelManager();
         MailCommand mailCommand = new MailCommand();
         CommandResult commandResult = mailCommand.execute(model);
+
+        // Check if the command result contains the expected mailto link
         assertEquals("mailto:", commandResult.getFeedbackToUser());
     }
+
 
     @Test
     public void execute_withMultiplePredicate_success() {
