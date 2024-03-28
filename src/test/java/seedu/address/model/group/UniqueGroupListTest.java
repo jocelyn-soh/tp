@@ -2,13 +2,16 @@ package seedu.address.model.group;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalGroups.LAB10;
 import static seedu.address.testutil.TypicalGroups.TUT04;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -157,5 +160,66 @@ public class UniqueGroupListTest {
     @Test
     public void toStringMethod() {
         assertEquals(uniqueGroupList.asUnmodifiableObservableList().toString(), uniqueGroupList.toString());
+    }
+
+    @Test
+    public void hashCode_equalObjectsSameHashCode() {
+        Group group1 = new Group("TUT01");
+        Group group2 = new Group("TUT01");
+
+        UniqueGroupList list1 = new UniqueGroupList();
+        list1.add(group1);
+
+        UniqueGroupList list2 = new UniqueGroupList();
+        list2.add(group2);
+
+        assertEquals(list1.hashCode(), list2.hashCode());
+    }
+
+    @Test
+    public void hashCode_diffObjectsDiffHashCode() {
+        Group group1 = new Group("TUT01");
+        Group group2 = new Group("TUT02");
+
+        UniqueGroupList list1 = new UniqueGroupList();
+        list1.add(group1);
+
+        UniqueGroupList list2 = new UniqueGroupList();
+        list2.add(group2);
+
+        assertNotEquals(list1.hashCode(), list2.hashCode());
+    }
+
+    @Test
+    public void iterator_iterationOverElements_returnsAllElements() {
+        // Create a list of groups
+        List<Group> groupList = new ArrayList<>();
+        groupList.add(new Group("TUT01"));
+        groupList.add(new Group("TUT02"));
+        groupList.add(new Group("TUT03"));
+
+        // Create a UniqueGroupList
+        UniqueGroupList uniqueGroupList = new UniqueGroupList();
+        uniqueGroupList.setGroups(groupList);
+
+        // Iterate over the elements using iterator
+        Iterator<Group> iterator = uniqueGroupList.iterator();
+        int count = 0;
+        while (iterator.hasNext()) {
+            Group nextGroup = iterator.next();
+            // Ensure that the next element returned by the iterator is from the original list
+            assertEquals(groupList.get(count), nextGroup);
+            count++;
+        }
+
+        // Ensure that the iterator traverses all elements
+        assertEquals(groupList.size(), count);
+    }
+
+    @Test
+    public void iterator_iterationOverEmptyList_returnsEmptyIterator() {
+        UniqueGroupList uniqueGroupList = new UniqueGroupList();
+        Iterator<Group> iterator = uniqueGroupList.iterator();
+        assertFalse(iterator.hasNext());
     }
 }

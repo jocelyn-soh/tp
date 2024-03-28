@@ -277,8 +277,8 @@ public class AddressBookTest {
         AddressBook addressBook2 = new AddressBook();
         List<Person> persons = new ArrayList<>();
         List<Group> groups = new ArrayList<>();
-        Person person1 = new PersonBuilder().withName("Alice").withGroups("TUT05").build();
-        addressBook1.addPerson(person1);
+        Person person = new PersonBuilder().withName("Alice").withGroups("TUT05").build();
+        addressBook1.addPerson(person);
         groups.add(new Group("TUT05"));
         addressBook1.setPersons(persons);
         addressBook2.setPersons(persons);
