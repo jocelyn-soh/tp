@@ -79,9 +79,12 @@ public class EditGroupCommandTest {
 
     @Test
     public void toStringMethod() {
-        AddGroupCommand addGroupCommand = new AddGroupCommand(LAB10);
-        String expected = AddGroupCommand.class.getCanonicalName() + "{toAdd=" + LAB10 + "}";
-        assertEquals(expected, addGroupCommand.toString());
+        Group group = new Group("LAB10");
+        String link = "https://t.me/invite";
+        EditGroupCommand command = new EditGroupCommand(group, link);
+
+        String expectedString = EditGroupCommand.class.getCanonicalName() + "{toEdit=" + LAB10 + "}";
+        assertEquals(expectedString, command.toString());
     }
 
     /**
