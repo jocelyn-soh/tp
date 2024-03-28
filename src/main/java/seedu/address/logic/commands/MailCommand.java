@@ -59,10 +59,6 @@ public class MailCommand extends Command {
 
         String mailtoLink = "mailto:" + String.join(";", emailList);
 
-        // Display the mailto link in a pop-up window
-        MailWindow mailWindow = new MailWindow(new Stage(), mailtoLink);
-        mailWindow.show();
-
         return new CommandResult(mailtoLink);
     }
 

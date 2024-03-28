@@ -19,13 +19,23 @@ public class MailWindow extends UiPart<Stage> {
     @FXML
     private Label mailLinkLabel;
 
+
     /**
      * Creates a new MailWindow.
      *
      * @param root Stage to use as the root of the MailWindow.
      */
-    public MailWindow(Stage root, String mailtoLink) {
+    public MailWindow(Stage root) {
         super(FXML, root);
+    }
+
+    public static void getMailWindow(String mailtoLink) {
+        MailWindow mailWindow = new MailWindow(new Stage());
+        mailWindow.setMailtoLink(mailtoLink);
+        mailWindow.show();
+    }
+
+    public void setMailtoLink(String mailtoLink) {
         mailLinkLabel.setText(mailtoLink);
     }
 
