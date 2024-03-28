@@ -41,10 +41,10 @@ public class PersonListPanel extends UiPart<Region> {
         this.groupList = groupList;
         initializeTabs(); // Initialize tabs after FXML is loaded
 
-        // Add listener to personList
-        personList.addListener((ListChangeListener<Person>) change -> {
+        // Add listener to groupList
+        groupList.addListener((ListChangeListener<Group>) change -> {
             while (change.next()) {
-                updateTabs(); // Update tabs whenever there is a change to a person
+                updateTabs(); // Update tabs whenever there is a change to groups
                 break; // Only update tabs once for each change
             }
         });
@@ -71,7 +71,7 @@ public class PersonListPanel extends UiPart<Region> {
      * Creates a tab to display all persons.
      */
     private void createAllTab() {
-        Tab allTab = new Tab("All");
+        Tab allTab = new Tab("Results");
         ListView<Person> allListView = new ListView<>();
         allListView.setItems(personList);
         allListView.setCellFactory(listView -> new PersonListViewCell());
@@ -110,11 +110,8 @@ public class PersonListPanel extends UiPart<Region> {
         // Creates a tab for displaying all persons
         createAllTab();
 
-        // Get the set of all unique groups from the person list
-        Set<Group> groups = new HashSet<>();
-        for (Person person : personList) {
-            groups.addAll(person.getGroups());
-        }
+        // Get the set of all unique groups from the group list
+        Set<Group> groups = new HashSet<>(groupList);
 
         createEachGroupTab(groups);
     }
