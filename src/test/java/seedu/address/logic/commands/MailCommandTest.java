@@ -52,21 +52,11 @@ public class MailCommandTest {
         assertFalse(findFirstCommand.equals(findSecondCommand));
     }
 
-//    @Test
-//    public void execute_noPredicate_success() {
-//        Model model = new ModelManager();
-//        MailCommand mailCommand = new MailCommand();
-//        CommandResult commandResult = mailCommand.execute(model);
-//        assertEquals("mailto:", commandResult.getFeedbackToUser());
-//    }
-
     @Test
     public void execute_noPredicate_success() {
         Model model = new ModelManager();
         MailCommand mailCommand = new MailCommand();
         CommandResult commandResult = mailCommand.execute(model);
-
-        // Check if the command result contains the expected mailto link
         assertEquals("mailto:", commandResult.getFeedbackToUser());
     }
 
