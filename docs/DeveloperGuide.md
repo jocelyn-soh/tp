@@ -450,7 +450,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
-* 1b. TutorsContactsPro detects that the student already exists on the list.
+* 1b. TutorsContactsPro detects that the group already exists on the list.
 
     * 1b1. TutorsContactsPro informs the tutor that the group already exists on the list.
     * 1b2. Tutor confirms cancellation of adding the group.
