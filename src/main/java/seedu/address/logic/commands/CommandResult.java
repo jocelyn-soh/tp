@@ -12,9 +12,11 @@ import seedu.address.commons.util.ToStringBuilder;
 public class CommandResult {
 
     private final String feedbackToUser;
+    private final String mailtoLink;
 
     /** Help information should be shown to the user. */
     private final boolean showHelp;
+    private final boolean showMail;
 
     /** The application should exit. */
     private final boolean exit;
@@ -22,10 +24,23 @@ public class CommandResult {
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean showMail, boolean exit) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
+        this.showMail = showMail;
         this.exit = exit;
+        mailtoLink = "";
+    }
+
+    /**
+     * Constructs a {@code CommandResult} with the specified fields.
+     */
+    public CommandResult(String feedbackToUser, String mailtoLink) {
+        this.feedbackToUser = requireNonNull(feedbackToUser);
+        this.showHelp = false;
+        this.showMail = true;
+        this.exit = false;
+        this.mailtoLink = mailtoLink;
     }
 
     /**
@@ -33,15 +48,22 @@ public class CommandResult {
      * and other fields set to their default value.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false);
+        this(feedbackToUser, false, false, false);
     }
 
     public String getFeedbackToUser() {
         return feedbackToUser;
     }
 
+    public String getMailtoLink() {
+        return this.mailtoLink;
+    }
+
     public boolean isShowHelp() {
         return showHelp;
+    }
+    public boolean isShowMail() {
+        return showMail;
     }
 
     public boolean isExit() {
@@ -62,12 +84,13 @@ public class CommandResult {
         CommandResult otherCommandResult = (CommandResult) other;
         return feedbackToUser.equals(otherCommandResult.feedbackToUser)
                 && showHelp == otherCommandResult.showHelp
+                && showMail == otherCommandResult.showMail
                 && exit == otherCommandResult.exit;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit);
+        return Objects.hash(feedbackToUser, showHelp, showMail, exit);
     }
 
     @Override

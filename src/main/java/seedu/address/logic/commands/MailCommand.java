@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 import seedu.address.model.Model;
 import seedu.address.model.group.GroupContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
-import seedu.address.ui.MailWindow;
-import javafx.stage.Stage;
 
 /**
  * Directs users to the HTML website with email links to all the students in the current list.
@@ -22,6 +20,8 @@ public class MailCommand extends Command {
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
             + "Example: " + COMMAND_WORD + " LAB10 TUT04";
+
+    public static final String SHOW_MAILTO_LINK = "Showing the Email window";
 
     private final GroupContainsKeywordsPredicate predicate;
 
@@ -59,12 +59,7 @@ public class MailCommand extends Command {
 
         String mailtoLink = "mailto:" + String.join(";", emailList);
 
-        // Display the mailto link in a pop-up window
-        MailWindow mailWindow = new MailWindow(new Stage());
-        mailWindow.setMailtoLink(mailtoLink);
-        mailWindow.show();
-
-        return new CommandResult(mailtoLink);
+        return new CommandResult(SHOW_MAILTO_LINK, mailtoLink);
     }
 
     @Override

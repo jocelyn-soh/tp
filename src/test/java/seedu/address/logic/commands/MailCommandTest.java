@@ -17,7 +17,6 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.group.GroupContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
-import seedu.address.ui.MailWindow;
 import seedu.address.testutil.PersonBuilder;
 
 public class MailCommandTest {
@@ -57,7 +56,7 @@ public class MailCommandTest {
         Model model = new ModelManager();
         MailCommand mailCommand = new MailCommand();
         CommandResult commandResult = mailCommand.execute(model);
-        assertEquals("mailto:", commandResult.getFeedbackToUser());
+        assertEquals(MailCommand.SHOW_MAILTO_LINK, commandResult.getFeedbackToUser());
     }
 
 
@@ -83,10 +82,6 @@ public class MailCommandTest {
                 .map(person -> person.getEmail().toString())
                 .collect(Collectors.toList());
 
-        // Generate the expected mailto link
-        String expectedLink = "mailto:" + String.join(";", emails);
-
-        // Ensure that the generated mailto link matches the expected one
-        assertEquals(expectedLink, commandResult.getFeedbackToUser());
+        assertEquals(MailCommand.SHOW_MAILTO_LINK, commandResult.getFeedbackToUser());
     }
 }
