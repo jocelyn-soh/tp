@@ -21,6 +21,8 @@ public class MailCommand extends Command {
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
             + "Example: " + COMMAND_WORD + " LAB10 TUT04";
 
+    public static final String SHOW_MAILTO_LINK = "Showing the Email window";
+
     private final GroupContainsKeywordsPredicate predicate;
 
     /**
@@ -39,6 +41,7 @@ public class MailCommand extends Command {
 
     /**
      * Generates a mailto link consisting of emails of students filtered accordingly
+     * Shows a pop-up window containing the mailto link
      */
     @Override
     public CommandResult execute(Model model) {
@@ -54,10 +57,9 @@ public class MailCommand extends Command {
                 .map(email -> email.value)
                 .collect(Collectors.toList());
 
-        // Generate the mailto link
         String mailtoLink = "mailto:" + String.join(";", emailList);
 
-        return new CommandResult(mailtoLink);
+        return new CommandResult(SHOW_MAILTO_LINK, mailtoLink);
     }
 
     @Override
