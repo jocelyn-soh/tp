@@ -1,13 +1,19 @@
 package seedu.address.ui;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.group.Group;
 import seedu.address.model.person.Person;
 
 /**
@@ -19,14 +25,29 @@ public class PersonListPanel extends UiPart<Region> {
 
     @FXML
     private ListView<Person> personListView;
+    @FXML
+    private TabPane tabPane; // Inject the TabPane from FXML
+
+    private ObservableList<Person> personList;
+    private ObservableList<Group> groupList; // Observable list of groups
+
 
     /**
      * Creates a {@code PersonListPanel} with the given {@code ObservableList}.
      */
-    public PersonListPanel(ObservableList<Person> personList) {
+    public PersonListPanel(ObservableList<Person> personList, ObservableList<Group> groupList) {
         super(FXML);
-        personListView.setItems(personList);
-        personListView.setCellFactory(listView -> new PersonListViewCell());
+        this.personList = personList;
+        this.groupList = groupList;
+        initializeTabs(); // Initialize tabs after FXML is loaded
+
+        // Add listener to groupList
+        groupList.addListener((ListChangeListener<Group>) change -> {
+            while (change.next()) {
+                updateTabs(); // Update tabs whenever there is a change to groups
+                break; // Only update tabs once for each change
+            }
+        });
     }
 
     /**
@@ -46,4 +67,63 @@ public class PersonListPanel extends UiPart<Region> {
         }
     }
 
+    /**
+     * Creates a tab to display all persons.
+     */
+    private void createAllTab() {
+        Tab allTab = new Tab("Results");
+        ListView<Person> allListView = new ListView<>();
+        allListView.setItems(personList);
+        allListView.setCellFactory(listView -> new PersonListViewCell());
+        allTab.setContent(allListView);
+        tabPane.getTabs().add(allTab);
+    }
+
+    /**
+     * Creates a tab for each group and display all persons in that group.
+     * @param groups
+     */
+    private void createEachGroupTab(Set<Group> groups) {
+        for (Group group : groups) {
+            Tab tab = new Tab(group.groupName);
+            ListView<Person> groupListView = new ListView<>();
+            tab.setContent(groupListView);
+
+            // Filter persons based on the group and set them in the ListView
+            groupListView.setItems(personList.filtered(person -> person.getGroups().contains(group)));
+            groupListView.setCellFactory(listView -> new PersonListViewCell());
+            tabPane.getTabs().add(tab);
+        }
+    }
+
+    /**
+     * Initializes the tabs with the list of students from each group
+     */
+    private void initializeTabs() {
+        if (tabPane == null) {
+            throw new AssertionError("TabPane is not injected.");
+        }
+
+        // Clear existing tabs
+        tabPane.getTabs().clear();
+
+        // Creates a tab for displaying all persons
+        createAllTab();
+
+        // Get the set of all unique groups from the group list
+        Set<Group> groups = new HashSet<>(groupList);
+
+        createEachGroupTab(groups);
+    }
+
+    /**
+     * Updates the tabs and the person list in each tab
+     */
+    private void updateTabs() {
+        // Clear existing tabs
+        tabPane.getTabs().clear();
+
+        // Reinitialize tabs with updated group list
+        initializeTabs();
+    }
 }

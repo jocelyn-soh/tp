@@ -29,14 +29,30 @@
     -fx-font-family: "Segoe UI Semibold";
 }
 
-.tab-pane {
-    -fx-padding: 0 0 0 1;
+.tab-label {
+    -fx-text-fill: black;
 }
 
-.tab-pane .tab-header-area {
+.tab-pane {
+    -fx-padding: 0 0 0 0;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-background-color: #104A53;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
     -fx-padding: 0 0 0 0;
     -fx-min-height: 0;
     -fx-max-height: 0;
+    -fx-background-color: derive(#104A53, 20%);
+}
+
+.tab:selected {
+    -fx-background-color: #B0EDE2;
+}
+
+.tab:hover {
+    -fx-background-color: derive(#B0EDE2, 40%);
 }
 
 .table-view {
@@ -108,18 +124,9 @@
 }
 
 .list-cell:filled:odd {
-    -fx-background-color: #B0EDE2;
+    -fx-background-color: derive(#B0EDE2, 20%);
     -fx-background-radius: 20px;
     -fx-background-insets: 4 0 4 0;
-}
-
-.list-cell:filled:selected {
-    -fx-background-color: #F9F0D2;
-}
-
-.list-cell:filled:selected #cardPane {
-    -fx-border-color: #3e7b91;
-    -fx-border-width: 0;
 }
 
 .list-cell .label {
@@ -297,7 +304,7 @@
 }
 
 .scroll-bar .thumb {
-    -fx-background-color: derive(#C4C4C4, 50%);
+    -fx-background-color: derive(#104A53, 50%);
     -fx-background-insets: 3;
 }
 

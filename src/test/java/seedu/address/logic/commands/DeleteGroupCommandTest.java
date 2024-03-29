@@ -81,9 +81,9 @@ public class DeleteGroupCommandTest {
 
     @Test
     public void toStringMethod() {
-        AddGroupCommand addGroupCommand = new AddGroupCommand(LAB10);
-        String expected = AddGroupCommand.class.getCanonicalName() + "{toAdd=" + LAB10 + "}";
-        assertEquals(expected, addGroupCommand.toString());
+        DeleteGroupCommand deleteGroupCommand = new DeleteGroupCommand(LAB10);
+        String expected = DeleteGroupCommand.class.getCanonicalName() + "{toRemove=" + LAB10 + "}";
+        assertEquals(expected, deleteGroupCommand.toString());
     }
 
     /**
