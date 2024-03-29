@@ -81,7 +81,7 @@ public class Person {
 
     /**
      * Checks if the person belongs to a specific group.
-     * 
+     *
      * @param group The group to check.
      * @return True if the person belongs to the group, false otherwise.
      */

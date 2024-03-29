@@ -45,6 +45,7 @@ public class Group {
      * Constructs a {@code Group}.
      *
      * @param groupName A valid group name.
+     * @param link A valid Telegram link.
      */
     public Group(String groupName, String link) {
         requireNonNull(groupName);
@@ -52,11 +53,28 @@ public class Group {
         this.groupName = groupName;
         this.telegramLink = link;
         this.attendance = new ArrayList<>();
-        for (int i = 0; i < 13; i++) {
-            attendance.add("_");
-        }
     }
 
+    /**
+     * Constructs a {@code Group}.
+     *
+     * @param groupName A valid group name.
+     * @param attendance A list of String to represent attendance.
+     */
+    public Group(String groupName, List<String> attendance) {
+        requireNonNull(groupName);
+        checkArgument(isValidGroupName(groupName), MESSAGE_CONSTRAINTS);
+        this.groupName = groupName;
+        this.telegramLink = "";
+        this.attendance = new ArrayList<>(attendance);
+    }
+
+    /**
+     * Marks attendance of given week.
+     *
+     * @param week A valid week number.
+     * @param update A valid attendance.
+     */
     public void markAttendance(Integer week, String update) {
         requireNonNull(update);
         this.attendance.set(week - 1, update);

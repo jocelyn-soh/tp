@@ -1,9 +1,10 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ATTENDANCE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_GROUP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WEEK;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ATTENDANCE;
+
 import java.util.List;
 
 import seedu.address.commons.core.index.Index;
@@ -12,8 +13,6 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.group.Group;
 import seedu.address.model.person.Person;
-
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 /**
  * Marks attendance for a specified person in a group.
@@ -42,12 +41,15 @@ public class MarkAttendanceCommand extends Command {
     private final int week;
     private final String attendance;
 
+    /**
+     * Creates a MarkAttendanceCommand to mark attendance of {@code Person} of given index
+     */
     public MarkAttendanceCommand(Index index, Group group, int week, String attendance) {
         requireNonNull(index);
         requireNonNull(group);
         requireNonNull(week);
         requireNonNull(attendance);
-        
+
         this.index = index;
         this.group = group;
         this.week = week;
