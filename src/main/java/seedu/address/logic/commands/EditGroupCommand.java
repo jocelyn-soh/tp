@@ -10,7 +10,7 @@ import seedu.address.model.Model;
 import seedu.address.model.group.Group;
 
 /**
- * Adds a group to the address book.
+ * Edits a group in the address book.
  */
 public class EditGroupCommand extends Command {
 
@@ -28,7 +28,7 @@ public class EditGroupCommand extends Command {
     private final String link;
 
     /**
-     * Creates an AddGroupCommand
+     * Creates an EditGroupCommand
      */
     public EditGroupCommand(Group group, String link) {
         requireNonNull(group);
@@ -68,7 +68,7 @@ public class EditGroupCommand extends Command {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("toAdd", toEdit)
+                .add("toEdit", toEdit)
                 .toString();
     }
 }

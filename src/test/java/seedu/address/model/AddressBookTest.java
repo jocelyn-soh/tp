@@ -10,6 +10,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -21,6 +22,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.group.Group;
 import seedu.address.model.group.exceptions.DuplicateGroupException;
+import seedu.address.model.group.exceptions.GroupNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.testutil.PersonBuilder;
@@ -129,6 +131,160 @@ public class AddressBookTest {
         String expected = AddressBook.class.getCanonicalName() + "{persons=" + addressBook.getPersonList()
                 + ", groups=" + addressBook.getGroupList() + "}";
         assertEquals(expected, addressBook.toString());
+    }
+
+    @Test
+    public void hashCode_equalAddressBooks_sameHashCode() {
+        // Create two identical address books
+        AddressBook addressBook1 = new AddressBook();
+        AddressBook addressBook2 = new AddressBook();
+
+        // Add a person to the first address book
+        Person person1 = new PersonBuilder().withName("Alice").withGroups("TUT04").build();
+        addressBook1.addPerson(person1);
+
+        // Add a person to the second address book
+        Person person2 = new PersonBuilder().withName("Alice").withGroups("TUT04").build();
+        addressBook2.addPerson(person2);
+
+        // Check that the hash codes are equal
+        assertEquals(addressBook1.hashCode(), addressBook2.hashCode());
+    }
+
+    @Test
+    public void hashCode_differentAddressBooks_differentHashCodes() {
+        // Create two address books with different contents
+        AddressBook addressBook1 = new AddressBook();
+        AddressBook addressBook2 = new AddressBook();
+
+        // Add a person to the first address book
+        Person person1 = new PersonBuilder().withName("Alice").withGroups("TUT05").build();
+        addressBook1.addPerson(person1);
+
+        // Add a person to the second address book
+        Person person2 = new PersonBuilder().withName("Bob").withGroups("LAB08").build();
+        addressBook2.addPerson(person2);
+
+        // Check that the hash codes are different
+        assertEquals(addressBook1.hashCode() != addressBook2.hashCode(), true);
+    }
+
+    @Test
+    public void removeGroup_existingGroup_success() {
+        // Create an address book with a group
+        AddressBook addressBook = new AddressBook();
+        Group groupToRemove = new Group("LAB08");
+        addressBook.addGroup(groupToRemove);
+
+        // Remove the group
+        addressBook.removeGroup(groupToRemove);
+
+        // Check that the group is no longer in the address book
+        assertFalse(addressBook.getGroupList().contains(groupToRemove));
+    }
+
+    @Test
+    public void removeGroup_nonExistingGroup_noChange() {
+        // Create an address book with a group
+        AddressBook addressBook = new AddressBook();
+        Group existingGroup = new Group("LAB05");
+        addressBook.addGroup(existingGroup);
+
+        // Create a group that does not exist in the address book
+        Group nonExistingGroup = new Group("LAB06");
+
+        // Throws GroupNotFoundException when the non-existing group is removed
+        assertThrows(GroupNotFoundException.class, () -> addressBook.removeGroup(nonExistingGroup));
+    }
+
+    @Test
+    public void setGroup_existingGroup_success() {
+        // Create an address book with an existing group
+        AddressBook addressBook = new AddressBook();
+        Group existingGroup = new Group("TUT04");
+        addressBook.addGroup(existingGroup);
+
+        // Create a new group
+        Group newGroup = new Group("TUT01");
+
+        // Replace the existing group with the new group
+        addressBook.setGroup(existingGroup, newGroup);
+
+        // Check that the new group is in the address book
+        assertFalse(addressBook.getGroupList().contains(existingGroup));
+        assertTrue(addressBook.getGroupList().contains(newGroup));
+    }
+
+    @Test
+    public void setGroup_nonExistingGroup_noChange() {
+        // Create an address book with an existing group
+        AddressBook addressBook = new AddressBook();
+        Group existingGroup = new Group("TUT04");
+        addressBook.addGroup(existingGroup);
+
+        // Create a new group
+        Group nonExistingGroup = new Group("TUT01");
+
+        // Throws GroupNotFoundException when the non-existing group is replaced
+        assertThrows(GroupNotFoundException.class, () -> addressBook.setGroup(nonExistingGroup, existingGroup));
+    }
+
+    @Test
+    public void equals_sameInstance_returnsTrue() {
+        AddressBook addressBook = new AddressBook();
+        assertTrue(addressBook.equals(addressBook));
+    }
+
+    @Test
+    public void equals_null_returnsFalse() {
+        AddressBook addressBook = new AddressBook();
+        assertFalse(addressBook.equals(null));
+    }
+
+    @Test
+    public void equals_differentClass_returnsFalse() {
+        AddressBook addressBook = new AddressBook();
+        assertFalse(addressBook.equals("Not an AddressBook instance"));
+    }
+
+    @Test
+    public void equals_differentPersons_returnsFalse() {
+        AddressBook addressBook1 = new AddressBook();
+        AddressBook addressBook2 = new AddressBook();
+
+        // Add a person to the first address book
+        Person person1 = new PersonBuilder().withName("Alice").withGroups("TUT05").build();
+        addressBook1.addPerson(person1);
+
+        // Add a person to the second address book
+        Person person2 = new PersonBuilder().withName("Bob").withGroups("LAB08").build();
+        addressBook2.addPerson(person2);
+        assertFalse(addressBook1.equals(addressBook2));
+    }
+
+    @Test
+    public void equals_differentGroups_returnsFalse() {
+        AddressBook addressBook1 = new AddressBook();
+        AddressBook addressBook2 = new AddressBook();
+        addressBook1.addGroup(new Group("TUT01"));
+        addressBook2.addGroup(new Group("LAB01"));
+        assertFalse(addressBook1.equals(addressBook2));
+    }
+
+    @Test
+    public void equals_sameContent_returnsTrue() {
+        AddressBook addressBook1 = new AddressBook();
+        AddressBook addressBook2 = new AddressBook();
+        List<Person> persons = new ArrayList<>();
+        List<Group> groups = new ArrayList<>();
+        Person person = new PersonBuilder().withName("Alice").withGroups("TUT05").build();
+        addressBook1.addPerson(person);
+        groups.add(new Group("TUT05"));
+        addressBook1.setPersons(persons);
+        addressBook2.setPersons(persons);
+        addressBook1.setGroups(groups);
+        addressBook2.setGroups(groups);
+        assertTrue(addressBook1.equals(addressBook2));
     }
 
     /**
