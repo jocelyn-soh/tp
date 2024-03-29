@@ -85,14 +85,14 @@ public class EditCommand extends Command {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
-        for (Group group : editPersonDescriptor.groups) {
+        Person personToEdit = lastShownList.get(index.getZeroBased());
+        Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
+
+        for (Group group : editPersonDescriptor.getGroups().orElse(personToEdit.getGroups())) {
             if (!model.hasGroup(group)) {
                 throw new CommandException(String.format(Group.MESSAGE_GROUP_NOT_IN_ADDRESS_BOOK, group));
             }
         }
-
-        Person personToEdit = lastShownList.get(index.getZeroBased());
-        Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
