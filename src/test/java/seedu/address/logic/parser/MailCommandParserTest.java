@@ -8,20 +8,13 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.FilterCommand;
+import seedu.address.logic.commands.MailCommand;
 import seedu.address.model.group.Group;
 import seedu.address.model.group.GroupContainsKeywordsPredicate;
 
-public class FilterCommandParserTest {
+public class MailCommandParserTest {
 
-    private FilterCommandParser parser = new FilterCommandParser();
-
-    @Test
-    public void parse_emptyArg_throwsParseException() {
-        assertParseFailure(parser, "     ", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                FilterCommand.MESSAGE_USAGE));
-    }
-
+    private MailCommandParser parser = new MailCommandParser();
 
     @Test
     public void parse_invalidArg_throwsParseException() {
@@ -32,11 +25,11 @@ public class FilterCommandParserTest {
     @Test
     public void parse_validArgs_returnsFilterCommand() {
         // no leading and trailing whitespaces
-        FilterCommand expectedFilterCommand =
-                new FilterCommand(new GroupContainsKeywordsPredicate(Arrays.asList("TUT10", "LAB05")));
-        assertParseSuccess(parser, "TUT10 LAB05", expectedFilterCommand);
+        MailCommand expectedMailCommand =
+                new MailCommand(new GroupContainsKeywordsPredicate(Arrays.asList("TUT10", "LAB05")));
+        assertParseSuccess(parser, "TUT10 LAB05", expectedMailCommand);
 
         // multiple whitespaces between keywords
-        assertParseSuccess(parser, " \n TUT10 \n \t LAB05  \t", expectedFilterCommand);
+        assertParseSuccess(parser, " \n TUT10 \n \t LAB05  \t", expectedMailCommand);
     }
 }

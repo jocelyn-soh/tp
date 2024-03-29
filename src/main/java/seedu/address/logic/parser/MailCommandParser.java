@@ -4,7 +4,7 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.util.Arrays;
 
-import seedu.address.logic.commands.FilterCommand;
+import seedu.address.logic.commands.MailCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.group.Group;
 import seedu.address.model.group.GroupContainsKeywordsPredicate;
@@ -12,7 +12,7 @@ import seedu.address.model.group.GroupContainsKeywordsPredicate;
 /**
  * Parses input arguments and creates a new FilterCommand object
  */
-public class FilterCommandParser implements Parser<FilterCommand> {
+public class MailCommandParser implements Parser<MailCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the FilterCommand
@@ -20,11 +20,10 @@ public class FilterCommandParser implements Parser<FilterCommand> {
      * @throws ParseException if the user input does not conform the expected format where parameter is empty
      * @throws ParseException if the user input does not conform the expected group naming format
      */
-    public FilterCommand parse(String args) throws ParseException {
+    public MailCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
         if (trimmedArgs.isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+            return new MailCommand();
         }
 
         String[] groupKeywords = trimmedArgs.split("\\s+");
@@ -35,8 +34,6 @@ public class FilterCommandParser implements Parser<FilterCommand> {
                         String.format(MESSAGE_INVALID_COMMAND_FORMAT, Group.MESSAGE_CONSTRAINTS_KEYWORD));
             }
         }
-
-        return new FilterCommand(new GroupContainsKeywordsPredicate(Arrays.asList(groupKeywords)));
+        return new MailCommand(new GroupContainsKeywordsPredicate(Arrays.asList(groupKeywords)));
     }
-
 }
