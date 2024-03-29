@@ -23,14 +23,6 @@ class JsonAdaptedGroup {
     }
 
     /**
-     * Constructs a {@code JsonAdaptedGroup} with the given {@code groupName}.
-     */
-    public JsonAdaptedGroup(String groupName) {
-        this.groupName = groupName;
-        this.telegramLink = "";
-    }
-
-    /**
      * Converts a given {@code Group} into this class for Jackson use.
      */
     public JsonAdaptedGroup(Group source) {
@@ -51,7 +43,7 @@ class JsonAdaptedGroup {
         if (!Group.isValidGroupName(groupName)) {
             throw new IllegalValueException(Group.MESSAGE_CONSTRAINTS);
         }
-        return new Group(groupName);
+        return new Group(groupName, telegramLink);
     }
 
 }
