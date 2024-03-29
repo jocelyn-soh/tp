@@ -123,7 +123,7 @@ How the parsing works:
 
 The `Model` component,
 
-* stores the major book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
+* stores the major book data i.e., all `Person` and `Group` objects (which are contained in a `UniquePersonList` and `UniqueGroupList` object, respectively).
 * stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
@@ -581,6 +581,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
   Use case ends.
 
+
 **Use case: UC06 - Filter students according to their group**
 
 **MSS**
@@ -612,25 +613,25 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 
 1. TA requests to add a specific group 
+
 2. System adds the group
 
     Use case ends.
 
 **Extensions**
 
-* 1a. The add command parameters are invalid or incomplete.
+* 1a. The addgroup command parameters are invalid or incomplete.
 
     * 1a1. TutorsContactsPro shows an error message.
 
-      Use case resumes at step 1.
+      Use case resumes at step 2.
 
-* 1b. TutorsContactsPro detects that the group already exists.
+* 1b. TutorsContactsPro detects that the group already exists on the list.
 
-    * 1b1. TutorsContactsPro informs the TA that the group already exists. 
-    * 1b2. TA confirms cancellation of adding the group.
+    * 1b1. TutorsContactsPro informs the tutor that the group already exists on the list.
+    * 1b2. Tutor confirms cancellation of adding the group.
 
       Use case ends.
-
 
 
 **Use case: UC08 - Edit a group**
@@ -698,6 +699,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 1a. The given telegram link is invalid or incomplete.
 
   Use case resumes at step 1.
+
 
 
 ### Non-Functional Requirements
