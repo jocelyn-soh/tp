@@ -88,6 +88,12 @@ public class EditCommand extends Command {
         Person personToEdit = lastShownList.get(index.getZeroBased());
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
+        for (Group group : editPersonDescriptor.getGroups().orElse(personToEdit.getGroups())) {
+            if (!model.hasGroup(group)) {
+                throw new CommandException(String.format(Group.MESSAGE_GROUP_NOT_IN_ADDRESS_BOOK, group));
+            }
+        }
+
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }

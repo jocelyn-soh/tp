@@ -14,6 +14,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.group.Group;
 import seedu.address.model.person.Person;
 
 /**
@@ -63,6 +64,12 @@ public class AddCommand extends Command {
 
         if (model.hasPerson(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        }
+
+        for (Group group : toAdd.getGroups()) {
+            if (!model.hasGroup(group)) {
+                throw new CommandException(String.format(Group.MESSAGE_GROUP_NOT_IN_ADDRESS_BOOK, group));
+            }
         }
 
         model.addPerson(toAdd);

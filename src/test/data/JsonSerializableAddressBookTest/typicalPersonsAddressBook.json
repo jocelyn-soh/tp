@@ -10,11 +10,11 @@
     "remark": "shy",
     "groups" : [
       {
-        "groupName" : "TUT10",
+        "groupName" : "TUT04",
         "attendance" : [ "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_" ]
       },
       {
-        "groupName" : "LAB05",
+        "groupName" : "LAB10",
         "attendance" : [ "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_" ]
       }
     ]
@@ -28,11 +28,11 @@
     "remark": "always skip tutorials",
     "groups" : [
       {
-        "groupName" : "TUT10",
+        "groupName" : "TUT04",
         "attendance" : [ "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_" ]
       },
       {
-        "groupName" : "LAB05",
+        "groupName" : "LAB10",
         "attendance" : [ "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_" ]
       }
     ]
@@ -46,7 +46,7 @@
     "remark": "",
     "groups" : [
       {
-        "groupName" : "TUT10",
+        "groupName" : "TUT04",
         "attendance" : [ "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_" ]
       }
     ]
@@ -60,7 +60,7 @@
     "remark": "hardworking",
     "groups" : [
       {
-        "groupName" : "TUT10",
+        "groupName" : "TUT04",
         "attendance" : [ "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_" ]
       }
     ]
@@ -74,7 +74,7 @@
     "remark": "strong foundations",
     "groups" : [
       {
-        "groupName" : "TUT10",
+        "groupName" : "TUT04",
         "attendance" : [ "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_" ]
       }
     ]
@@ -88,7 +88,7 @@
     "remark": "Always ask questions in class",
     "groups" : [
       {
-        "groupName" : "TUT10",
+        "groupName" : "TUT04",
         "attendance" : [ "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_" ]
       }
     ]
@@ -102,7 +102,7 @@
     "remark": "",
     "groups" : [
       {
-        "groupName" : "TUT10",
+        "groupName" : "TUT04",
         "attendance" : [ "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_" ]
       }
     ]

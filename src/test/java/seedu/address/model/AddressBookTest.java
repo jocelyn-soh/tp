@@ -7,8 +7,8 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_GROUP_LAB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_GROUP_TUTORIAL;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_MAJOR_BOB;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalAddressBook.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.ArrayList;
 import java.util.Arrays;

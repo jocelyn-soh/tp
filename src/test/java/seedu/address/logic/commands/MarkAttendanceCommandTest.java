@@ -34,10 +34,10 @@ public class MarkAttendanceCommandTest {
     public void execute_attendanceIsMarked_markSuccessful() throws Exception {
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        firstPerson.getMatchingGroup(new Group("TUT10")).markAttendance(1, "A");
+        firstPerson.getMatchingGroup(new Group("TUT04")).markAttendance(1, "A");
 
         MarkAttendanceCommand markCommand = new MarkAttendanceCommand(INDEX_FIRST_PERSON,
-                new Group("TUT10"), 1, "A");
+                new Group("TUT04"), 1, "A");
 
         assertCommandSuccess(markCommand, model, MarkAttendanceCommand.MESSAGE_SUCCESS, expectedModel);
     }
