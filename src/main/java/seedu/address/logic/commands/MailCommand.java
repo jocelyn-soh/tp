@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import seedu.address.model.Model;
+import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.group.GroupContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 
@@ -45,13 +46,13 @@ public class MailCommand extends Command {
      */
     @Override
     public CommandResult execute(Model model) {
-        if (predicate != null) {
-            model.updateFilteredPersonList(predicate);
-        }
         requireNonNull(model);
 
+        ReadOnlyAddressBook addressBook = model.getAddressBook();
+        List<Person> personList = addressBook.getPersonList().filtered(predicate);
+
         // Extract email addresses of filtered students
-        List<String> emailList = model.getFilteredPersonList().stream()
+        List<String> emailList = personList.stream()
                 .map(Person::getEmail)
                 .filter(email -> !email.value.isEmpty())
                 .map(email -> email.value)

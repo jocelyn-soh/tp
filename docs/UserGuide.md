@@ -3,7 +3,7 @@
   title: "User Guide"
   pageNav: 3
 ---
-![Logo](images/TutorsContactsProLogos.png)
+![Logo](images/TutorsContactsProLogo.png)
 
 # Table of Contents
 <!-- TOC -->
@@ -51,6 +51,8 @@
 
   * [Filtering students using group: `filter`](#feature-filter)
 
+  * [Marking attendance of a student in the group: `mark`](#feature-mark)
+
   * [Deleting a student: `delete`](#feature-delete)
 
 * [Group Commands](#feature-groupCommand)
@@ -74,6 +76,8 @@
 --------------------------------------------------------------------------------------------------------------------
 # <span id='feature-introduction'> Introduction <span>
 
+
+
 # <span id='feature-about'> About TutorsContactsPro <span>
 
 Unlock the full potential of your teaching journey with TutorsContactsPro, the ultimate desktop tool designed for **NUS tutors and teaching assistants in Computer Science courses**. 
@@ -83,6 +87,8 @@ Seamlessly navigate through student information with our intuitive blend of **Co
 From effortless attendance tracking to personalized student profiles, TutorsContactsPro streamlines administrative tasks for maximum efficiency. 
 
 Experience the future of teaching management today with TutorsContactsPro!
+
+
 
 
 
@@ -101,6 +107,8 @@ Feel free to turn back to this user guide if you encounter any problems or doubt
 * If you would like to find out more about the **technical aspects of TutorsContactsPro**, you may refer to our **[Developer Guide](https://ay2324s2-cs2103t-W10-4.github.io/tp/DeveloperGuide.html)**.
 
 * Finally, if you would like an **overview** of this entire user guide, you may refer to our **[Table of Contents](#table-of-contents)**.
+
+
 
 
 ## <span id='#navigating-the-user-guide'> Navigating the User Guide <span>
@@ -167,7 +175,7 @@ Copy or move the downloaded `TutorsContactsPro.jar` file to the folder you want 
 
    After executing this command, a graphical user interface (GUI) similar to the one below should appear shortly:
 
-   <img src="images/UpdatedUi.png" width="700">
+   <img src="images/UpdatedUI.png" width="700">
 
 
    Note: The application comes with some sample data for your reference.  
@@ -207,6 +215,7 @@ It can be a tutorial/ recitation/ lab.
 |-----------------|----------------------------|--------|--------------------------------------------------------------|
 | `NAME`          | Name of the group          | `g/`   | Group name must begin with `TUT/REC/LAB` + `2-digit number`  |
 | `TELEGRAM_LINK` | Telegram link of the group | `tg/`  | Must be a valid telegram group link                          |
+| `ATTENDANCE   ` | Attendance of the student  |   NA   | A string array representing the attendance, initially automatically constructed|
 
 
 ## <span id='feature-ui'> Understanding the User Interface (UI) <span>
@@ -229,7 +238,7 @@ More is to be explained in [`help`](#feature-help) feature.
 * The Student panel is a panel that you can use to see the list of students stored in TutorsContactsPro.
 * You can see student's name, phone number, year of student, major, email address, group, telegram handle and even whatever remarks that you have for each of them as needed!
 
-![Student Panel](images/StudentPanel.png)
+![Student Panel](images/StudentPanelUpdated.png)
 
 
 ## <span id='feature-start'> Quick start <span>
@@ -251,6 +260,8 @@ Type the command in the command box and press Enter to execute it. e.g. typing *
    * [`editgroup g/TUT01`](#feature-editgroup) : Edits the group 'TUT01' in TutorsContactsPro.
    
    * [`deletegroup g/TUT01`](#feature-deletegroup) : Deletes the group 'TUT01' in TutorsContactsPro.
+
+   * [`mark 1 g/TUT05 w/1 a/P`](#feature-mark) : Marks the first student group 'TUT05' week 1 attendance as Present in TutorsContactsPro.
    
    * [`mail`](#feature-mail) : Generates a mail link to all the students on the list. 
 
@@ -402,6 +413,29 @@ Examples:
 
   ![result for 'filter TU'](images/filterFeature.png)
 
+
+### <span id='feature-mark'> Marking students attendance by group week number: `filter` <span>
+
+Marks the student's attendance according to the group name and week number, the attendance should be either .
+
+Format: `mark INDEX g/Group_Name w/Week a/ATTENDANCE`
+
+> ⚠️️ **Constraint:**
+> * `GROUP_NAME` must be in the correct format of `TUT/REC/LAB` + `2-digit number`, the group should exsist in the student
+> * `WEEK` must be a valid week number, from 1 to 13.
+> * `ATTENDANCE` must be either `A` for absent or `P`for present.
+
+> ℹ️ **Information:**
+> * Marks the student at the specified INDEX. The index refers to the index number shown in the displayed student list. The index must be a positive integer 1, 2, 3, …​
+> * All the fields should be provided, Index, Group, Week, Attendance.
+> * Since there are 13 weeks in total in a tutorial or lab, only 13 marks are available.
+> * User can also edit the attendance by using the command word mark. 
+
+Examples:
+* `mark 1 g/TUT05 w/1 a/P` Marks the attendance of the 1st student in the list. Marks `TUT05` week 1 attendance as P.
+* `mark 3 g/TUT02 w/1 a/A` Marks the attendance of the 3rd student in the list. Marks `TUT02` week 1 attendance as P. 
+
+  ![result for 'mark 1'](images/markAttendance.png)
 
 ### <span id='feature-delete'> Deleting a student : `delete` <span>
 
