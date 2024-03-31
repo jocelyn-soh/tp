@@ -7,7 +7,12 @@
     "major": "Computer Science",
     "telegram": "alicepauline",
     "remark": "valid remark",
-    "groups": [ "TUT10" ]
+    "groups": [
+      {
+        "groupName" : "TUT04",
+        "attendance" : [ "A", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_" ]
+      }
+    ]
   }, {
     "name": "Alice Pauline",
     "phone": "94351253",

@@ -139,7 +139,6 @@ public class ParserUtil {
         return new Remark(trimmedRemark);
     }
 
-
     /**
      * Parses a {@code String group} into a {@code Group}.
      * Leading and trailing whitespaces will be trimmed.
@@ -180,5 +179,33 @@ public class ParserUtil {
             throw new ParseException(Group.MESSAGE_CONSTRAINTS);
         }
         return link;
+    }
+
+    /**
+     * Parses {@code String week} into an {@code Integer} and returns it. Leading and trailing whitespaces will be
+     * trimmed.
+     * @throws ParseException if the specified week is invalid.
+     */
+    public static Integer parseWeek(String week) throws ParseException {
+        String trimmedWeek = week.trim();
+        if (!Group.isValidWeek(trimmedWeek)) {
+            throw new ParseException(Group.WEEK_MESSAGE_CONSTRAINTS);
+        }
+        int weekInt = Integer.parseInt(trimmedWeek);
+        return weekInt;
+    }
+
+
+    /**
+     * Parses {@code String attendance} into an {@code String} and returns it. Leading and trailing whitespaces will be
+     * trimmed.
+     * @throws ParseException if the specified attendance is invalid.
+     */
+    public static String parseAttendance(String attendance) throws ParseException {
+        String trimmedAttendance = attendance.trim();
+        if (!Group.isValidAttendance(trimmedAttendance)) {
+            throw new ParseException(Group.ATTENDANCE_MESSAGE_CONSTRAINTS);
+        }
+        return attendance;
     }
 }
